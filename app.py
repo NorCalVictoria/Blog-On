@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy 
 from datetime import datetime
+#import os
 
 app = Flask(__name__)
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////mnt/ENGINE/Users/Engineer/Documents/blog/blog.db'
+#app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('sqlite:///THINK/Users/ENGINE/src/ALL_Proj/BlogProj/HBlog/blog.db') 
+#SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 db = SQLAlchemy(app)
 
@@ -19,9 +20,8 @@ class Blogpost(db.Model):
 @app.route('/')
 def index():
     #posts = Blogpost.query.order_by(Blogpost.date_posted.desc()).all()
-    return "<h1>Got here again . Nice.</h1>"
-    #return render_template('index.html', posts=posts)
-
+    #return "<h1>Got here again . Nice.</h1>"                 <--- test
+    return render_template('index.html', posts=posts)
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -31,6 +31,10 @@ def post(post_id):
     post = Blogpost.query.filter_by(id=post_id).one()
 
     return render_template('post.html', post=post)
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 @app.route('/add')
 def add():
