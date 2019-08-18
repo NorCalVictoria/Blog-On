@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy 
 from datetime import datetime
-#import os
+import os
 
-app = Flask(__name__)
-#app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('sqlite:///THINK/Users/ENGINE/src/ALL_Proj/BlogProj/HBlog/blog.db') 
-#SQLALCHEMY_TRACK_MODIFICATIONS = False
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__)                                           #os.environ.get('sqlite:///THINK/Users/ENGINE/src/ALL_Proj/BlogProj/HBlog/blog.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////ENGINE/src/Users/ALL_Proj/BlogProj/HBlog/blog.db'                                             
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'blog.db')
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
@@ -19,8 +23,9 @@ class Blogpost(db.Model):
 
 @app.route('/')
 def index():
-    #posts = Blogpost.query.order_by(Blogpost.date_posted.desc()).all()
-    #return "<h1>Got here again . Nice.</h1>"                 <--- test
+    #posts = {}
+    posts = Blogpost.query.order_by(Blogpost.date_posted.desc()).all()
+    #return "<h1>Got here again . Nice.</h1>"
     return render_template('index.html', posts=posts)
 @app.route('/about')
 def about():
@@ -31,7 +36,6 @@ def post(post_id):
     post = Blogpost.query.filter_by(id=post_id).one()
 
     return render_template('post.html', post=post)
-
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
