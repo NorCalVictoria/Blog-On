@@ -27,6 +27,7 @@ def index():
     posts = Blogpost.query.order_by(Blogpost.date_posted.desc()).all()
     #return "<h1>Got here again . Nice.</h1>"
     return render_template('index.html', posts=posts)
+    
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -46,15 +47,20 @@ def add():
 
 @app.route('/addpost', methods=['POST'])
 def addpost():
+
+
     title = request.form['title']
     subtitle = request.form['subtitle']
     author = request.form['author']
     content = request.form['content']
 
+    # return '<h1>Title: {} Subtitle: {} Author: {} Content: {} </h1>'.format(title, subtitle, author, content) <--TEST 
+
     post = Blogpost(title=title, subtitle=subtitle, author=author, content=content, date_posted=datetime.now())
 
     db.session.add(post)
     db.session.commit()
+
 
     return redirect(url_for('index'))
 
