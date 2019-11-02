@@ -1,12 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy 
+from flask import Flask, render_template, request, redirect, url_for 
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)                                           #os.environ.get('sqlite:///THINK/Users/ENGINE/src/ALL_Proj/BlogProj/HBlog/blog.db')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////ENGINE/src/Users/ALL_Proj/BlogProj/HBlog/blog.db'                                             
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////ENGINE/src/Users/ALL_Proj/BlogProj/HBlog/blog.db'                                             
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'blog.db')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -66,3 +66,6 @@ def addpost():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True)
+
+
+
